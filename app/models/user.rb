@@ -4,12 +4,13 @@ class User < ApplicationRecord
   has_many :sns_credentials, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[google_oauth2]
 
          def self.without_sns_data(auth)
           user = User.where(email: auth.info.email).first
       
+        
             if user.present?
               sns = SnsCredential.create(
                 uid: auth.uid,
