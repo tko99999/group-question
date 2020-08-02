@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_many :sns_credentials, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
@@ -54,4 +58,7 @@ class User < ApplicationRecord
           end
           return { user: user ,sns: sns}
         end
+
+        has_many :groups, through: :group_users
+        has_many :group_users
 end
